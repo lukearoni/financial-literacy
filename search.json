@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hi, my name is Luke Li and I am a rising senior at Lexington High School (Year of Graduation 2026).\nGithub: https://github.com/lukearoni\nEmail: lukelex2008@gmail.com\nThis project analyzes and models the impact of financial literacy upon personal financial decisions. Here is the link to the github repository: https://github.com/lukearoni/financial-literacy\nThis project was created as a part of Kane’s Data Science Bootcamp."
+  },
+  {
+    "objectID": "model.html",
+    "href": "model.html",
+    "title": "Mathematical Model",
+    "section": "",
+    "text": "Model Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n0.677\n0.466\n0.890\n\n\nFinancial Literacy Score\n0.047\n−0.005\n0.098\n\n\n\nSource: NFCS 2021"
+  },
+  {
+    "objectID": "model.html#table",
+    "href": "model.html#table",
+    "title": "Mathematical Model",
+    "section": "",
+    "text": "Model Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n0.677\n0.466\n0.890\n\n\nFinancial Literacy Score\n0.047\n−0.005\n0.098\n\n\n\nSource: NFCS 2021"
+  },
+  {
+    "objectID": "model.html#model",
+    "href": "model.html#model",
+    "title": "Mathematical Model",
+    "section": "Model",
+    "text": "Model\n\\[\n\\log\\left(\\frac{\\Pr(\\text{Pays Credit Card in Full})}{1 - \\Pr(\\text{Pays Credit Card in Full})}\\right)\n= 0.677 + 0.047 \\times \\text{Financial Literacy Score}\n\\]"
+  },
+  {
+    "objectID": "model.html#parameters",
+    "href": "model.html#parameters",
+    "title": "Mathematical Model",
+    "section": "Parameters",
+    "text": "Parameters\nFinancial literacy score is the main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Financial Literacy",
+    "section": "",
+    "text": "Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, we seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. We modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card."
+  }
+]
