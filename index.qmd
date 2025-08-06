@@ -92,12 +92,12 @@ ggplot(pred_data_clean, aes(x = fin_lit_score, y = estimate, color = group, fill
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   labs(
     title = "Financial Literacy Score and Credit Card Behavior",
-    subtitle = "Higher financial literacy is strongly associated with responsible credit card usage",
-    x = "Financial Literacy Score (Standardized)",
-    y = "Predicted Probability of Responsible Behavior",
-    color = "Credit Card Behavior",
-    fill = "Credit Card Behavior",
-    caption = "Source: Model predictions from logistic regression on survey data"
+    subtitle = "Higher financial literacy is strongly associated with paying off credit cards",
+    x = "Financial Literacy Score",
+    y = "Predicted Probability of Paying Off Credit Card",
+    color = "Paid Credit Card",
+    fill = "Paid Credit Card",
+    caption = "Source: NFCS 2021 Survey Data"
   ) +
   theme_minimal(base_size = 14) +
   theme(
