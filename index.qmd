@@ -77,17 +77,6 @@ df$CreditCardBehavior <- factor(df$CreditCardBehavior, levels = c(0, 1), labels 
 fit_lit <- logistic_reg(engine = "glm") |>
   fit(CreditCardBehavior ~ fin_lit_score, 
       data = df)
-
-# View results
-tidy(fit_lit)
-
-# Make predictions (optional)
-predictions <- fit_lit |>
-  predict(df, type = "prob") |>
-  bind_cols(df)
-
-# View first few predictions
-head(predictions)
 ```
 
 ```{r}

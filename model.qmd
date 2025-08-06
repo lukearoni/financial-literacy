@@ -75,16 +75,10 @@ fit_lit <- logistic_reg(engine = "glm") |>
   fit(CreditCardBehavior ~ fin_lit_score, 
       data = df)
 
-# View results
-tidy(fit_lit)
-
 # Make predictions (optional)
 predictions <- fit_lit |>
   predict(df, type = "prob") |>
   bind_cols(df)
-
-# View first few predictions
-head(predictions)
 ```
 
 ## Table
@@ -120,3 +114,10 @@ tidy_fit |>
     data_row.padding = px(4)
   )
 ```
+
+## Model
+
+$$
+\log\left(\frac{\Pr(\text{Pays Credit Card in Full})}{1 - \Pr(\text{Pays Credit Card in Full})}\right)
+= 0.677 + 0.047 \times \text{Financial Literacy Score}
+$$
