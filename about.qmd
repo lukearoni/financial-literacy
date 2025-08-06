@@ -1,0 +1,13 @@
+---
+title: "About"
+---
+
+Hi, my name is Luke Li and I am a rising senior at Lexington High School (Year of Graduation 2026).
+
+**Github:** [https://github.com/lukearoni](https://github.com/lukearoni)      
+
+**Email:** lukelex2008@gmail.com 
+
+This project analyzes and models the impact of financial literacy upon personal financial decisions. Here is the link to the github repository: [https://github.com/lukearoni/financial-literacy](https://github.com/lukearoni/financial-literacy)
+
+This project was created as a part of [Kane’s Data Science Bootcamp](https://bootcamp.davidkane.info/).
