@@ -1,5 +1,5 @@
 ---
-title: "Financial Literacy"
+title: "Credit Cards and Financial Literacy"
 format: html
 author: Luke Li
 execute:
