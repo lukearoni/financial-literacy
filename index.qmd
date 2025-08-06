@@ -7,14 +7,13 @@ execute:
     warning: false
 ---
 
-Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, we seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. We modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. Therefore, a person who has more financial knowledge will make more sound financial decisions, like paying off their credit card.
-
 ```{r}
 # Load required libraries
 library(tidyverse)
 library(tidymodels)
 library(broom)
 library(gt)
+library(marginaleffects)
 
 # Step 1: Read CSV
 df_raw <- read_csv("NFCSdata.csv")
@@ -80,33 +79,34 @@ fit_lit <- logistic_reg(engine = "glm") |>
 ```
 
 ```{r}
-# Assume this is your model fit
-tidy_fit <- tidy(fit_lit, conf.int = TRUE)
+library(ggplot2)
+library(dplyr)
 
-# Select and format only the desired columns
-tidy_fit |>
-  select(term, estimate, conf.low, conf.high) |>
-  mutate(across(estimate:conf.high, ~ round(.x, 3))) |>
-  mutate(term = recode(term,
-                       "(Intercept)" = "Intercept",
-                       "fin_lit_score" = "Financial Literacy Score")) |>
-  gt() |>
-  fmt_number(columns = estimate:conf.high, decimals = 3) |>
-  cols_label(
-    term = "Term",
-    estimate = "Estimate",
-    conf.low = "CI Lower",
-    conf.high = "CI Upper"
-  ) |>
-  tab_header(
-    title = "Model Estimates with Confidence Intervals"
-  ) |>
-  tab_source_note(
-    source_note = "Source: NFCS 2021"
-  ) |>
-  tab_options(
-    table.font.size = px(14),
-    heading.title.font.size = px(16),
-    data_row.padding = px(4)
+# Assuming the object is named `pred_data` from your previous code
+# If not, use plot_predictions(..., draw = FALSE) |> as.data.frame()
+pred_data_clean <- plot_predictions(fit_lit, type = "prob", condition = "fin_lit_score", draw = FALSE)
+
+ggplot(pred_data_clean, aes(x = fin_lit_score, y = estimate, color = group, fill = group)) +
+  geom_line(size = 1.2) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.15, linetype = 0) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Financial Literacy Score and Credit Card Behavior",
+    subtitle = "Higher financial literacy is strongly associated with responsible credit card usage",
+    x = "Financial Literacy Score (Standardized)",
+    y = "Predicted Probability of Responsible Behavior",
+    color = "Credit Card Behavior",
+    fill = "Credit Card Behavior",
+    caption = "Source: Model predictions from logistic regression on survey data"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    plot.subtitle = element_text(size = 14, margin = margin(b = 10)),
+    legend.position = "top",
+    panel.grid.minor = element_blank()
   )
+
 ```
+
+Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, we seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. We modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card.
