@@ -121,3 +121,7 @@ $$
 \log\left(\frac{\Pr(\text{Pays Credit Card in Full})}{1 - \Pr(\text{Pays Credit Card in Full})}\right)
 = 0.677 + 0.047 \times \text{Financial Literacy Score}
 $$
+
+## Parameters
+
+Financial literacy score is the main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question.
