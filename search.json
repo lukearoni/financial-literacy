@@ -37,7 +37,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Financial Literacy",
+    "title": "Credit Cards and Financial Literacy",
     "section": "",
     "text": "Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, we seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. We modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card."
   }
