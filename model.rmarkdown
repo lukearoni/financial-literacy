@@ -75,18 +75,20 @@ fit_lit <- logistic_reg(engine = "glm") |>
   fit(CreditCardBehavior ~ fin_lit_score, 
       data = df)
 
-fit_ed <- logistic_reg(engine = "glm") |>
-  fit(CreditCardBehavior ~ Education, 
-      data = df)
+# Make predictions (optional)
+predictions <- fit_lit |>
+  predict(df, type = "prob") |>
+  bind_cols(df)
 ```
 
-## Tables
+## Table
 
 ```{r}
-tidy_fit_lit <- tidy(fit_lit, conf.int = TRUE)
-tidy_fit_ed <- tidy(fit_ed, conf.int = TRUE)
+# Assume this is your model fit
+tidy_fit <- tidy(fit_lit, conf.int = TRUE)
 
-tidy_fit_lit |>
+# Select and format only the desired columns
+tidy_fit |>
   select(term, estimate, conf.low, conf.high) |>
   mutate(across(estimate:conf.high, ~ round(.x, 3))) |>
   mutate(term = recode(term,
@@ -111,50 +113,20 @@ tidy_fit_lit |>
     heading.title.font.size = px(16),
     data_row.padding = px(4)
   )
-
-
-tidy_fit_ed |>
-  select(term, estimate, conf.low, conf.high) |>
-  mutate(across(estimate:conf.high, ~ round(.x, 3))) |>
-  mutate(term = recode(term,
-                       "(Intercept)" = "Intercept",
-                       "Education" = "Education Level")) |>
-  gt() |>
-  fmt_number(columns = estimate:conf.high, decimals = 3) |>
-  cols_label(
-    term = "Term",
-    estimate = "Estimate",
-    conf.low = "CI Lower",
-    conf.high = "CI Upper"
-  ) |>
-  tab_header(
-    title = "Model Estimates with Confidence Intervals"
-  ) |>
-  tab_source_note(
-    source_note = "Source: NFCS 2021"
-  ) |>
-  tab_options(
-    table.font.size = px(14),
-    heading.title.font.size = px(16),
-    data_row.padding = px(4)
-  )
 ```
 
-## Models
+## Model
 
 $$
 \ln\left(\frac{\Pr(\text{Pays Credit Card in Full})}{1 - \Pr(\text{Pays Credit Card in Full})}\right)
 = 0.677 + 0.047 \times \text{Financial Literacy Score}
 $$
 
-$$
-\ln\left(\frac{\Pr(\text{Pays Credit Card in Full})}{1 - \Pr(\text{Pays Credit Card in Full})}\right)
-= -0.449 + 0.256 \times \text{Education Level}
-$$
+## Parameters
 
-## Log Odds
+Financial literacy score is the main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question.
 
-The numbers predicted by the models are log odds, which is the logarithm of the odds of an event occurring. It ranges ranges from negative infinity to positive infinity, and the formula converting between normal probability and log odds is: 
+The coefficient for financial literacy score is estimated to be 0.047. This is number is in log odds, which is the logarithm of the odds of an event occurring. It ranges ranges from negative infinity to positive infinity, and the formula converting between normal probability and log odds is: 
 $$
 \text{Log Odds} = \ln(\text{Odds})
 $$
@@ -163,22 +135,7 @@ $$
 \text{Odds} = \frac{\text{Probability}}{1 - \text{Probability}}
 $$
 
-A negative log odd means that the odds are less than 1, which indicate that an event is less likely to occur than it is to occur.
-
-## Parameters
-
-### Financial Literacy
-
-Financial literacy score is a main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question.
-
-The coefficient for financial literacy score is estimated to be 0.047. Therefore, for every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098.
+Therefore, for every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098.
 
 If a person has a financial knowledge test score of 0, then the log odds of them paying off their credit card bill is 0.677, and the 95% confidence interval for this estimate ranges from 0.466 to 0.890.
 
-### Education Level
-
-Education level is the other main parameter in the model. It is a scale form 1 through 7. 1 means that the respondent did not complete high school, 2 means that the respondent is only a high school graduate, 3 means that the respondent is only a high school graduate with a GED or alternative credential, 4 means that the respondent has had some college education, but no degree, 5 means that the respondent has an Associate's degree, 6 means that the respondent has a Bachelor's degree, and 7 means that the respondent has a post graduate degree. The higher the number, the better the education.
-
-The coefficient for education level is estimated to be 0.256. Therefore, for every 1 level increase in education, the log odds of someone paying off a credit card bill increases by 0.256, and the 95% confidence interval for this estimate ranges from 0.215 to 0.296.
-
-If a person has an education level of 0 (which doesn't make sense in this case), then the log odds of them paying off their credit card bill is -0.449, and the 95% confidence interval for this estimate ranges from -0.663 to -0.235.
