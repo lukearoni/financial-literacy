@@ -118,10 +118,15 @@ tidy_fit |>
 ## Model
 
 $$
-\log\left(\frac{\Pr(\text{Pays Credit Card in Full})}{1 - \Pr(\text{Pays Credit Card in Full})}\right)
+\ln\left(\frac{\Pr(\text{Pays Credit Card in Full})}{1 - \Pr(\text{Pays Credit Card in Full})}\right)
 = 0.677 + 0.047 \times \text{Financial Literacy Score}
 $$
 
 ## Parameters
 
 Financial literacy score is the main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question.
+
+The coefficient for financial literacy score is estimated to be 0.047. This is number is in log odds, which is the logarithm of the odds of an event occurring. It ranges ranges from negative infinity to positive infinity, and the formula converting between normal probability and log odds is: 
+$$
+\text{log odds} = \ln\left(\frac{\text{Probability}}{1 - \text{Probability}}\right)
+$$
