@@ -7,13 +7,11 @@ execute:
 ---
 
 ```{r}
-# Load required libraries
 library(tidyverse)
 library(tidymodels)
 library(broom)
 library(gt)
 
-# Step 1: Read CSV
 df_raw <- read_csv("NFCSdata.csv")
 
 df_raw <- df_raw |>
@@ -36,7 +34,6 @@ df_raw <- df_raw |>
     CreditCardBehavior = ifelse(F2_1 == 1, 1, 0)
 )
 
-# Step 2: Define column label mapping
 column_labels <- c(
   A3Ar_w = "Age",
   A50A = "BinaryGender",
@@ -56,22 +53,17 @@ df_clean <- df_raw |>
   filter(!if_any(everything(), ~ .x %in% c(98, 99, 999))) |> 
   select(A3Ar_w, A50A, A5_2015, A8_2021, M4, M6_correct, M7_correct, M8_correct, M9_correct, M10_correct, J5, CreditCardBehavior)
 
-# Step 3: Rename relevant columns and filter data
 df <- df_clean |>
   rename_with(~ column_labels[.x], .cols = all_of(names(column_labels))) |>
-  # Create composite financial literacy score
   mutate(fin_lit_score = CompoundInterest + Inflation + BondPrices + MortgageTerms + StockDiversification) |>
-  # Drop missing values in any model-relevant columns
   drop_na(CreditCardBehavior, EmergencyFund, fin_lit_score, FinancialKnowledgeRating, Age, BinaryGender, Income, Education)
 ```
 
 
 ```{r}
 #| cache: true
-# IMPORTANT: Convert outcome variable to factor for classification
 df$CreditCardBehavior <- factor(df$CreditCardBehavior, levels = c(0, 1), labels = c("No", "Yes"))
 
-# Logistic regression model using glm engine
 fit_lit <- logistic_reg(engine = "glm") |>
   fit(CreditCardBehavior ~ fin_lit_score, 
       data = df)
