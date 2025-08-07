@@ -13,6 +13,8 @@ library(gt)
 library(marginaleffects)
 library(ggplot2)
 library(dplyr)
+library(ggtext)
+library(scales)
 
 df_raw <- read_csv("NFCSdata.csv")
 
@@ -52,7 +54,8 @@ column_labels <- c(
 )
 
 df_clean <- df_raw |>
-  filter(!if_any(everything(), ~ .x %in% c(98, 99, 999)))
+  filter(!if_any(everything(), ~ .x %in% c(98, 99, 999))) |> 
+  select(A3Ar_w, A50A, A5_2015, A8_2021, M4, M6_correct, M7_correct, M8_correct, M9_correct, M10_correct, J5, CreditCardBehavior)
 
 df <- df_clean |>
   rename_with(~ column_labels[.x], .cols = all_of(names(column_labels))) |>
@@ -73,6 +76,35 @@ fit_lit <- logistic_reg(engine = "glm") |>
 fit_ed <- logistic_reg(engine = "glm") |>
   fit(CreditCardBehavior ~ Education, 
       data = df)
+```
+
+```{r}
+summary_lit <- df |>
+  group_by(fin_lit_score) |>
+  summarise(
+    good_behavior_rate = mean(CreditCardBehavior == "Yes", na.rm = TRUE),
+    n = n()
+  ) |>
+  ungroup()
+
+ggplot(summary_lit, aes(x = factor(fin_lit_score), y = good_behavior_rate)) +
+  geom_col(fill = "#7570b3") +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  labs(
+    title = "Financial Literacy and Paying Off Credit Card",
+    subtitle = "There is a lot of variation of the proportion of people paying off their credit card for each financial literacy score group",
+    x = "Financial Literacy Score",
+    y = "Proportion Paying Off Credit card",
+    caption = "Source: NFCS 2021 Survey Data"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_markdown(size = 14, face = "bold"),
+    plot.subtitle = element_markdown(size = 8),
+    plot.caption = element_text(size = 10),
+    axis.title.x = element_text(size = 12),
+    axis.title.y = element_text(size = 12)
+  )
 ```
 
 ```{r}
@@ -102,10 +134,40 @@ ggplot(pred_lit, aes(x = fin_lit_score, y = estimate, color = group, fill = grou
 
 Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, I seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. For every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card.
 
-```{r}
-library(ggtext)  # for rich text in titles
-library(scales)
+The inconsistent trend in the first plot shown from the actual data is likely due to the small data samples for low financial literacy scores. Only 30 respondents scored a 0, 220 scored a 1, 459 scored a 2, and 512 scored a 3, while on the other side 1472 scored a 4 and 1965 scored a 5.
 
+```{r}
+# Step 1: Summarize the data
+summary_df <- df |>
+  group_by(Education) |>
+  summarise(
+    good_behavior_rate = mean(CreditCardBehavior == "Yes", na.rm = TRUE),
+    n = n()
+  ) |>
+  ungroup()
+
+# Step 2: Create the plot
+ggplot(summary_df, aes(x = factor(Education), y = good_behavior_rate)) +
+  geom_col(fill = "#1b9e77") +
+  scale_y_continuous(labels = scales::percent_format(), limits = c(0, 1)) +
+  labs(
+    title = "Education and Paying Off Credit Card",
+    subtitle = "Individuals with better education are more likely to pay their credit card bills",
+    x = "Level of Education",
+    y = "Proportion Paying Off Credit Card",
+    caption = "Source: NFCS 2021 Survey Data"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_markdown(size = 14, face = "bold"),
+    plot.subtitle = element_markdown(size = 12),
+    plot.caption = element_text(size = 10),
+    axis.title.x = element_text(size = 12),
+    axis.title.y = element_text(size = 12)
+  )
+```
+
+```{r}
 pred_ed <- plot_predictions(fit_ed, type = "prob", condition = "Education", draw = FALSE)
 
 # Plot

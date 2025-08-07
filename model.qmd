@@ -53,7 +53,8 @@ column_labels <- c(
 )
 
 df_clean <- df_raw |>
-  filter(!if_any(everything(), ~ .x %in% c(98, 99, 999)))
+  filter(!if_any(everything(), ~ .x %in% c(98, 99, 999))) |> 
+  select(A3Ar_w, A50A, A5_2015, A8_2021, M4, M6_correct, M7_correct, M8_correct, M9_correct, M10_correct, J5, CreditCardBehavior)
 
 # Step 3: Rename relevant columns and filter data
 df <- df_clean |>
