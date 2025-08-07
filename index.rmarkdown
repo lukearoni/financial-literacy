@@ -1,0 +1,137 @@
+---
+format: html
+execute:
+    echo: false
+    warning: false
+---
+
+```{r}
+library(tidyverse)
+library(tidymodels)
+library(broom)
+library(gt)
+library(marginaleffects)
+library(ggplot2)
+library(dplyr)
+
+df_raw <- read_csv("NFCSdata.csv")
+
+df_raw <- df_raw |>
+  mutate(
+    # M6: Compound Interest (correct = 1 "More than $102")
+    M6_correct = ifelse(M6 == 1, 1, 0),
+    
+    # M7: Inflation (correct = 3 "Less than today") 
+    M7_correct = ifelse(M7 == 3, 1, 0),
+    
+    # M8: Bond Prices (correct = 2 "They will fall")
+    M8_correct = ifelse(M8 == 2, 1, 0),
+    
+    # M9: Mortgage Terms (correct = 1 "True")
+    M9_correct = ifelse(M9 == 1, 1, 0),
+    
+    # M10: Stock Diversification (correct = 2 "False")
+    M10_correct = ifelse(M10 == 2, 1, 0),
+    
+    CreditCardBehavior = ifelse(F2_1 == 1, 1, 0)
+)
+
+column_labels <- c(
+  A3Ar_w = "Age",
+  A50A = "BinaryGender",
+  A5_2015 = "Education",
+  A8_2021 = "Income",
+  M4 = "FinancialKnowledgeRating",
+  M6_correct = "CompoundInterest",
+  M7_correct = "Inflation",
+  M8_correct = "BondPrices",
+  M9_correct = "MortgageTerms",
+  M10_correct = "StockDiversification",
+  J5 = "EmergencyFund",
+  CreditCardBehavior = "CreditCardBehavior"
+)
+
+df_clean <- df_raw |>
+  filter(!if_any(everything(), ~ .x %in% c(98, 99, 999)))
+
+df <- df_clean |>
+  rename_with(~ column_labels[.x], .cols = all_of(names(column_labels))) |>
+  mutate(fin_lit_score = CompoundInterest + Inflation + BondPrices + MortgageTerms + StockDiversification) |>
+  drop_na(CreditCardBehavior, EmergencyFund, fin_lit_score, FinancialKnowledgeRating, Age, BinaryGender, Income, Education)
+```
+
+
+```{r}
+#| cache: true
+# converting outcome variable to factor for classification
+df$CreditCardBehavior <- factor(df$CreditCardBehavior, levels = c(0, 1), labels = c("No", "Yes"))
+
+fit_lit <- logistic_reg(engine = "glm") |>
+  fit(CreditCardBehavior ~ fin_lit_score, 
+      data = df)
+
+fit_ed <- logistic_reg(engine = "glm") |>
+  fit(CreditCardBehavior ~ Education, 
+      data = df)
+```
+
+```{r}
+pred_lit <- plot_predictions(fit_lit, type = "prob", condition = "fin_lit_score", draw = FALSE)
+
+ggplot(pred_lit, aes(x = fin_lit_score, y = estimate, color = group, fill = group)) +
+  geom_line(size = 1.2) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.15, linetype = 0) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
+  labs(
+    title = "Financial Literacy Score and Credit Card Behavior",
+    subtitle = "Higher financial literacy is strongly associated with paying off credit cards",
+    x = "Financial Literacy Score",
+    y = "Predicted Probability of Paying Off Credit Card",
+    color = "Paid Credit Card",
+    fill = "Paid Credit Card",
+    caption = "Source: NFCS 2021 Survey Data"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", size = 18),
+    plot.subtitle = element_text(size = 14, margin = margin(b = 10)),
+    legend.position = "top",
+    panel.grid.minor = element_blank()
+  )
+```
+
+Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, I seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. For every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card.
+
+```{r}
+library(ggtext)  # for rich text in titles
+library(scales)
+
+pred_ed <- plot_predictions(fit_ed, type = "prob", condition = "Education", draw = FALSE)
+
+# Plot
+ggplot(pred_ed, aes(x = Education, y = estimate, color = group, fill = group)) +
+  geom_line(size = 1.2) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high), alpha = 0.15, linetype = 0) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), limits = c(0, 1)) +
+  scale_color_manual(values = c("Yes" = "#1b9e77", "No" = "#d95f02")) +
+  scale_fill_manual(values = c("Yes" = "#1b9e77", "No" = "#d95f02")) +
+  labs(
+    title = "Higher Education Predicts Better Credit Card Behavior",
+    subtitle = "Individuals with better education are more likely to pay off credit cards",
+    x = "Level of Education",
+    y = "Predicted Probability of Paying Off Credit Card",
+    color = "Paid Credit Card",
+    fill = "Paid Credit Card",
+    caption = "Source: NFCS 2021 Survey Data"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_markdown(size = 16, face = "bold"),
+    plot.subtitle = element_markdown(size = 13),
+    plot.caption = element_text(size = 10),
+    legend.position = "top"
+  )
+```
+
+The education level of an individual also has a large impact on their financial decisions. Using data from the 2021 NFCS survey, I seek to also understand the relationship between paying off a credit card bill and the education level of people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of education level. Individuals with a higher education level were more likely to pay off their credit card consistently. For every 1 level increase in education, the log odds of someone paying off a credit card bill increases by 0.256, and the 95% confidence interval for this estimate ranges from 0.215 to 0.296. Therefore, a person who has a higher education level will make more sound financial decisions, such as paying off their credit card.
+
