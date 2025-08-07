@@ -128,5 +128,9 @@ Financial literacy score is the main parameter in the model. It is a composite o
 
 The coefficient for financial literacy score is estimated to be 0.047. This is number is in log odds, which is the logarithm of the odds of an event occurring. It ranges ranges from negative infinity to positive infinity, and the formula converting between normal probability and log odds is: 
 $$
-\text{log odds} = \ln\left(\frac{\text{Probability}}{1 - \text{Probability}}\right)
+\text{Log Odds} = \ln(\text{Odds})
+$$
+
+$$
+\text{Odds} = \frac{\text{Probability}}{1 - \text{Probability}}
 $$
