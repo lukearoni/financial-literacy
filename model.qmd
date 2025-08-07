@@ -134,3 +134,7 @@ $$
 $$
 \text{Odds} = \frac{\text{Probability}}{1 - \text{Probability}}
 $$
+
+Therefore, for every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098.
+
+If a person has a financial knowledge test score of 0, then the log odds of them paying off their credit card bill is 0.677, and the 95% confidence interval for this estimate ranges from 0.466 to 0.890.
