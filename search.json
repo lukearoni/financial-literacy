@@ -7,38 +7,52 @@
     "text": "Hi, my name is Luke Li and I am a rising senior at Lexington High School (Year of Graduation 2026).\nGithub: https://github.com/lukearoni\nEmail: lukelex2008@gmail.com\nThis project analyzes and models the impact of financial literacy upon personal financial decisions. Here is the link to the github repository: https://github.com/lukearoni/financial-literacy\nThis project was created as a part of Kane’s Data Science Bootcamp."
   },
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Financial Behavior",
+    "section": "",
+    "text": "Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, I seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. For every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card.\nThe inconsistent trend in the first plot shown from the actual data is likely due to the small data samples for low financial literacy scores. Only 30 respondents scored a 0, 220 scored a 1, 459 scored a 2, and 512 scored a 3, while on the other side 1472 scored a 4 and 1965 scored a 5.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThe education level of an individual also has a large impact on their financial decisions. Using data from the 2021 NFCS survey, I seek to also understand the relationship between paying off a credit card bill and the education level of people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of education level. Individuals with a higher education level were more likely to pay off their credit card consistently. For every 1 level increase in education, the log odds of someone paying off a credit card bill increases by 0.256, and the 95% confidence interval for this estimate ranges from 0.215 to 0.296. Therefore, a person who has a higher education level will make more sound financial decisions, such as paying off their credit card."
+  },
+  {
     "objectID": "model.html",
     "href": "model.html",
     "title": "Mathematical Model",
     "section": "",
-    "text": "Model Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n0.677\n0.466\n0.890\n\n\nFinancial Literacy Score\n0.047\n−0.005\n0.098\n\n\n\nSource: NFCS 2021"
+    "text": "Model Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n0.677\n0.466\n0.890\n\n\nFinancial Literacy Score\n0.047\n−0.005\n0.098\n\n\n\nSource: NFCS 2021\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModel Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n−0.449\n−0.663\n−0.235\n\n\nEducation Level\n0.256\n0.215\n0.296\n\n\n\nSource: NFCS 2021"
   },
   {
-    "objectID": "model.html#table",
-    "href": "model.html#table",
+    "objectID": "model.html#tables",
+    "href": "model.html#tables",
     "title": "Mathematical Model",
     "section": "",
-    "text": "Model Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n0.677\n0.466\n0.890\n\n\nFinancial Literacy Score\n0.047\n−0.005\n0.098\n\n\n\nSource: NFCS 2021"
+    "text": "Model Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n0.677\n0.466\n0.890\n\n\nFinancial Literacy Score\n0.047\n−0.005\n0.098\n\n\n\nSource: NFCS 2021\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModel Estimates with Confidence Intervals\n\n\nTerm\nEstimate\nCI Lower\nCI Upper\n\n\n\n\nIntercept\n−0.449\n−0.663\n−0.235\n\n\nEducation Level\n0.256\n0.215\n0.296\n\n\n\nSource: NFCS 2021"
   },
   {
-    "objectID": "model.html#model",
-    "href": "model.html#model",
+    "objectID": "model.html#models",
+    "href": "model.html#models",
     "title": "Mathematical Model",
-    "section": "Model",
-    "text": "Model\n\\[\n\\log\\left(\\frac{\\Pr(\\text{Pays Credit Card in Full})}{1 - \\Pr(\\text{Pays Credit Card in Full})}\\right)\n= 0.677 + 0.047 \\times \\text{Financial Literacy Score}\n\\]"
+    "section": "Models",
+    "text": "Models\n\\[\n\\ln\\left(\\frac{\\Pr(\\text{Pays Credit Card in Full})}{1 - \\Pr(\\text{Pays Credit Card in Full})}\\right)\n= 0.677 + 0.047 \\times \\text{Financial Literacy Score}\n\\]\n\\[\n\\ln\\left(\\frac{\\Pr(\\text{Pays Credit Card in Full})}{1 - \\Pr(\\text{Pays Credit Card in Full})}\\right)\n= -0.449 + 0.256 \\times \\text{Education Level}\n\\]"
+  },
+  {
+    "objectID": "model.html#log-odds",
+    "href": "model.html#log-odds",
+    "title": "Mathematical Model",
+    "section": "Log Odds",
+    "text": "Log Odds\nThe numbers predicted by the models are log odds, which is the logarithm of the odds of an event occurring. It ranges ranges from negative infinity to positive infinity, and the formula converting between normal probability and log odds is: \\[\n\\text{Log Odds} = \\ln(\\text{Odds})\n\\]\n\\[\n\\text{Odds} = \\frac{\\text{Probability}}{1 - \\text{Probability}}\n\\]\nA negative log odd means that the odds are less than 1, which indicate that an event is less likely to occur than it is to occur."
   },
   {
     "objectID": "model.html#parameters",
     "href": "model.html#parameters",
     "title": "Mathematical Model",
     "section": "Parameters",
-    "text": "Parameters\nFinancial literacy score is the main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question."
+    "text": "Parameters\n\nFinancial Literacy\nFinancial literacy score is a main parameter in the model. It is a composite of scores from 5 questions meant to gauge the financial literacy level of each survey respondent. It ranges from 0 to 5, one point per correct question.\nThe coefficient for financial literacy score is estimated to be 0.047. Therefore, for every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098.\nIf a person has a financial knowledge test score of 0, then the log odds of them paying off their credit card bill is 0.677, and the 95% confidence interval for this estimate ranges from 0.466 to 0.890.\n\n\nEducation Level\nEducation level is the other main parameter in the model. It is a scale form 1 through 7. 1 means that the respondent did not complete high school, 2 means that the respondent is only a high school graduate, 3 means that the respondent is only a high school graduate with a GED or alternative credential, 4 means that the respondent has had some college education, but no degree, 5 means that the respondent has an Associate’s degree, 6 means that the respondent has a Bachelor’s degree, and 7 means that the respondent has a post graduate degree. The higher the number, the better the education.\nThe coefficient for education level is estimated to be 0.256. Therefore, for every 1 level increase in education, the log odds of someone paying off a credit card bill increases by 0.256, and the 95% confidence interval for this estimate ranges from 0.215 to 0.296.\nIf a person has an education level of 0 (which doesn’t make sense in this case), then the log odds of them paying off their credit card bill is -0.449, and the 95% confidence interval for this estimate ranges from -0.663 to -0.235."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Credit Cards and Financial Literacy",
+    "objectID": "sources.html",
+    "href": "sources.html",
+    "title": "Sources",
     "section": "",
-    "text": "Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, we seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. We modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card."
+    "text": "2021 National Financial Capability Study State-by-State Survey\nI obtained the data from the 2021 state-level findings. I manipulated the dataset to drop rows (individuals) with missing values in relevant columns, dropping rows with values of 98 or 99 in relevant columsn (which indicate an answer of “don’t know”), and changing binary columns of 1 and 2 to 0 and 1. Furhermore, for the financial knowledge questions with answer choices of 1, 2, 3, 98, or 99, I changed the outcomes to be just 0 and 1. 1 stands for the correct answer, and 0 stands for every other answer."
   }
 ]

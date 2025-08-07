@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Financial Behavior</title>
+<title>Sources – Financial Behavior</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -90,7 +90,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -98,7 +98,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Mathematical Model</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./sources.html"> 
+    <a class="nav-link active" href="./sources.html" aria-current="page"> 
 <span class="menu-text">Sources</span></a>
   </li>  
   <li class="nav-item">
@@ -120,50 +120,29 @@ ul.task-list li input[type="checkbox"] {
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sources</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Knowledge regarding personal finance has a large impact on financial decisions that every person makes. Using data from the 2021 NFCS survey, I seek to understand the relationship between paying off a credit card bill and financial literacy in people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of financial literacy. Individuals with a higher financial literacy score were more likely to pay off their credit card consistently. For every 1 point increase in financial knowledge score, the log odds of someone paying off a credit card bill increases by 0.047, and the 95% confidence interval for this estimate ranges from -0.005 to 0.098. Therefore, a person who has more financial knowledge will make more sound financial decisions, such as paying off their credit card.</p>
-<p>The inconsistent trend in the first plot shown from the actual data is likely due to the small data samples for low financial literacy scores. Only 30 respondents scored a 0, 220 scored a 1, 459 scored a 2, and 512 scored a 3, while on the other side 1472 scored a 4 and 1965 scored a 5.</p>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>The education level of an individual also has a large impact on their financial decisions. Using data from the 2021 NFCS survey, I seek to also understand the relationship between paying off a credit card bill and the education level of people across the United States. I modeled credit card behavior, a binary TRUE/FALSE variable (true meaning always pays card in full, false meaning not always paid), as a logistic function of education level. Individuals with a higher education level were more likely to pay off their credit card consistently. For every 1 level increase in education, the log odds of someone paying off a credit card bill increases by 0.256, and the 95% confidence interval for this estimate ranges from 0.215 to 0.296. Therefore, a person who has a higher education level will make more sound financial decisions, such as paying off their credit card.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://finrafoundation.org/nfcs-data-and-downloads">2021 National Financial Capability Study State-by-State Survey</a></p>
+<p>I obtained the data from the 2021 state-level findings. I manipulated the dataset to drop rows (individuals) with missing values in relevant columns, dropping rows with values of 98 or 99 in relevant columsn (which indicate an answer of “don’t know”), and changing binary columns of 1 and 2 to 0 and 1. Furhermore, for the financial knowledge questions with answer choices of 1, 2, 3, 98, or 99, I changed the outcomes to be just 0 and 1. 1 stands for the correct answer, and 0 stands for every other answer.</p>
 
 
 
